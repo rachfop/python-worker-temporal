@@ -70,10 +70,10 @@ based on `workflow-v2` and contains a modified, compatible version of the V2 wor
 1. Set your enviroment to communicate with the server:
 
    ```bash
-    temporal env set patrick.namespace patrick.a2dd6
-    temporal env set patrick.address patrick.a2dd6.tmprl.cloud:7233
-    temporal env set patrick.tls-cert-path ./etc/temporal/ca.pem
-    temporal env set patrick.tls-key-path ./etc/temporal/ca.key
+    temporal env set prod.namespace patrick.a2dd6
+    temporal env set prod.address patrick.a2dd6.tmprl.cloud:7233
+    temporal env set prod.tls-cert-path ca.pem
+    temporal env set prod.tls-key-path ca.key
    ```
 
 2. Add the build ID as default for the task queue:
@@ -81,7 +81,8 @@ based on `workflow-v2` and contains a modified, compatible version of the V2 wor
    ```bash
    temporal task-queue update-build-ids add-new-default \
      --task-queue versioned-queue \
-     --build-id $MY_V1_BUILD_ID
+     --build-id $MY_V1_BUILD_ID \
+     --env prod
    ```
 
 3. Start a couple of workflows:
@@ -90,11 +91,13 @@ based on `workflow-v2` and contains a modified, compatible version of the V2 wor
    temporal workflow start \
     --task-queue versioned-queue \
     --type VersioningExample \
-    --workflow-id wf-1
+    --workflow-id wf-1 \
+    --env prod
    temporal workflow start \
     --task-queue versioned-queue \
     --type VersioningExample \
-    --workflow-id wf-2
+    --workflow-id wf-2 \
+    --env prod
    ```
 
 4. Check your worker logs and ensure it picks up those workflows. They will continue running on this worker for the
@@ -111,7 +114,8 @@ based on `workflow-v2` and contains a modified, compatible version of the V2 wor
    ```bash
    temporal task-queue update-build-ids add-new-default \
      --task-queue versioned-queue \
-     --build-id $MY_V2_BUILD_ID
+     --build-id $MY_V2_BUILD_ID \
+     --env prod
    ```
 
 8. Run another workflow:
@@ -120,7 +124,8 @@ based on `workflow-v2` and contains a modified, compatible version of the V2 wor
    temporal workflow start \
      --task-queue versioned-queue \
      --type VersioningExample \
-     --workflow-id wf-3
+     --workflow-id wf-3 \
+     --env prod
    ```
 
 9.  Check the second worker's logs and ensure it picks up the workflow.
@@ -145,7 +150,8 @@ based on `workflow-v2` and contains a modified, compatible version of the V2 wor
    temporal task-queue update-build-ids add-new-compatible \
      --task-queue versioned-queue \
      --build-id $MY_V2_1_BUILD_ID \
-     --existing-compatible-build-id $MY_V2_BUILD_ID
+     --existing-compatible-build-id $MY_V2_BUILD_ID \
+     --env prod
    ```
 
 14. Run another workflow:
@@ -154,7 +160,8 @@ based on `workflow-v2` and contains a modified, compatible version of the V2 wor
    temporal workflow start \
      --task-queue versioned-queue \
      --type VersioningExample \
-     --workflow-id wf-4
+     --workflow-id wf-4 \
+     --env prod
    ```
 
 15. Check the third worker's logs and ensure it picks up the workflow.
@@ -174,7 +181,8 @@ based on `workflow-v2` and contains a modified, compatible version of the V2 wor
    temporal task-queue get-build-id-reachability \
      --build-id $MY_V1_BUILD_ID \
      --build-id $MY_V2_BUILD_ID \
-     --build-id $MY_V2_1_BUILD_ID
+     --build-id $MY_V2_1_BUILD_ID \
+     --env prod
    ```
 
 ### Building the Docker Image
