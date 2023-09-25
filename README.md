@@ -1,4 +1,4 @@
-# TypeScript Worker Versioning Demo
+# Python Worker Versioning Demo
 
 This repository demos how to set up Temporal Python project that uses [worker versioning][worker-versioning-docs].
 
@@ -70,8 +70,8 @@ based on `workflow-v2` and contains a modified, compatible version of the V2 wor
 1. Set your enviroment to communicate with the server:
 
    ```bash
-    temporal env set prod.namespace patrick.a2dd6
-    temporal env set prod.address patrick.a2dd6.tmprl.cloud:7233
+    temporal env set prod.namespace YOUR_NAMESPACE.a2dd6
+    temporal env set prod.address YOUR_NAMESPACE.a2dd6.tmprl.cloud:7233
     temporal env set prod.tls-cert-path ca.pem
     temporal env set prod.tls-key-path ca.key
    ```
